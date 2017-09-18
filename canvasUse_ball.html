@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ball</title>
+    <style>
+        #canvas{
+            background: black;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<script src="scripts/Underscore-min.js"></script>
+<script src="scripts/ColorBall.js"></script>
+<script>
+    // 1.当窗口加载完毕
+    window.onload = function () {
+        var canvas = document.body.children[0];
+        canvas.width = document.documentElement.clientWidth;
+        canvas.height = document.documentElement.clientHeight;
+        var ctx = canvas.getContext('2d');
+        var ballArr = [];
+        var colorArr = ['white', 'blue', 'pink', 'purple', 'yellow'];
+        canvas.onmousemove = function (event) {
+            var event = event || window.event;
+            var x = event.offsetX;
+            var y = event.offsetY;
+            ballArr.push(
+                    new ColorBall({x: x, y: y, color: colorArr[_.random(0, colorArr.length -1)]})
+            );
+        }
+        setInterval(function () {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            for(var i=0; i<ballArr.length; i++){
+                ballArr[i].update();
+                ballArr[i].render(ctx);
+            }
+        }, 50);
+    }
+</script>
+</body>
+</html>
